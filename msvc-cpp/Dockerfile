@@ -30,7 +30,9 @@ RUN echo "Extracting Visual C++ compiler" \
     echo "Extracting Wix Toolset" \
     && unzip -d Tools/Wix -q WIX.zip; \
     echo "Extracting Git" \
-    && unzip -d Tools/Git -q Git.zip; 
+    && unzip -d Tools/Git -q Git.zip \
+    && echo "Extracting Python" \
+    && unzip -d Tools/Python -q python-3.12.10-embed-amd64.zip;
 
 FROM madduci/docker-wine:9-stable
 
@@ -57,6 +59,7 @@ RUN echo "Fix Permissions" \
     && chmod -R 775 ./Tools Tools/VS2022 Tools/SDK || echo "Done" ;
 
 RUN sed -i 's/manager/store/g' /home/wine/.wine/drive_c/Tools/Git/etc/gitconfig
+RUN rm /home/wine/.wine/drive_c/Tools/Python/*._pth
     
 USER wine
 
